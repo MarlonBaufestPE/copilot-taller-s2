@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 from typing import Optional
 
 from fastapi import FastAPI, HTTPException, Depends, status
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from jose import JWTError, jwt
 from passlib.context import CryptContext
@@ -23,6 +24,15 @@ app = FastAPI(
     title="JWT Authentication API",
     description="API with JWT authentication using FastAPI",
     version="1.0.0"
+)
+
+# Configure CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173", "http://localhost:3000"],  # Frontend URLs
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # Mock user database

@@ -47,3 +47,11 @@ Thumbs.db
 # Environment variables
 .env
 .env.local
+
+# Frontend (Node.js/React)
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+frontend/.vite/
+*.local
