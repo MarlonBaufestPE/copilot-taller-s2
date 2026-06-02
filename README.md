@@ -1,30 +1,104 @@
-# JWT Authentication API with FastAPI
+# JWT Authentication Full Stack Application
 
-Esta es una aplicación Web API desarrollada con Python y FastAPI que implementa autenticación JWT (JSON Web Tokens).
+Esta es una aplicación full stack que implementa autenticación JWT (JSON Web Tokens) con:
+- **Backend**: API REST desarrollada con Python y FastAPI
+- **Frontend**: Aplicación web desarrollada con React y Vite
+
+## 📁 Estructura del Proyecto
+
+```
+copilot-taller-s2/
+├── backend/          # API REST con FastAPI
+│   ├── main.py       # Aplicación principal
+│   ├── Dockerfile
+│   └── pyproject.toml
+├── frontend/         # Aplicación React
+│   ├── src/
+│   ├── public/
+│   └── package.json
+├── DESIGN.md         # Estándar de diseño FlowOps
+├── docker-compose.yml
+└── README.md         # Este archivo
+```
 
 ## Características
 
+### Backend (FastAPI)
 - **Autenticación JWT**: Sistema de autenticación basado en tokens JWT
 - **Login**: Endpoint para obtener un token de acceso
 - **Refresh Token**: Endpoint para renovar tokens expirados
 - **Ruta Protegida**: Endpoint de ejemplo que requiere autenticación
 - **Expiración de Tokens**: Tokens con expiración de 300 segundos (5 minutos)
+- **CORS**: Configurado para comunicación con frontend
 - **Docker**: Contenedorización completa con Docker y Docker Compose
-- **Poetry**: Gestión de dependencias con Poetry
+
+### Frontend (React)
+- **Página de Login**: Formulario de autenticación
+- **Página de Bienvenida**: Dashboard protegido
+- **Rutas Protegidas**: Control de acceso basado en JWT
+- **Sesión Persistente**: Tokens guardados en localStorage
+- **Diseño Moderno**: Implementa el estándar FlowOps - Surgical Precision
+- **Responsive**: Adaptable a diferentes tamaños de pantalla
 
 ## Requisitos Previos
 
-### Opción 1: Docker (Recomendado)
+### Para ejecutar con Docker (Recomendado)
 - Docker
 - Docker Compose
 
-### Opción 2: Instalación Local
+### Para ejecutar localmente
 - Python 3.9 o superior
-- Poetry
+- Node.js 16.x o superior
+- Poetry (para backend)
+- npm o yarn (para frontend)
 
 ## Instalación y Ejecución
 
-### Usando Docker (Recomendado)
+### 🚀 Inicio Rápido (Ejecutar Localmente)
+
+#### 1. Backend
+
+```bash
+# Navegar al directorio backend
+cd backend
+
+# Crear entorno virtual
+python3 -m venv .venv
+source .venv/bin/activate  # En Windows: .venv\Scripts\activate
+
+# Instalar dependencias
+pip install fastapi uvicorn "python-jose[cryptography]" "passlib[bcrypt]" python-multipart pydantic pydantic-settings bcrypt==4.1.2
+
+# Ejecutar el servidor
+uvicorn main:app --reload
+
+# El backend estará disponible en: http://localhost:8000
+```
+
+#### 2. Frontend
+
+```bash
+# En otra terminal, navegar al directorio frontend
+cd frontend
+
+# Instalar dependencias
+npm install
+
+# Ejecutar el servidor de desarrollo
+npm run dev
+
+# El frontend estará disponible en: http://localhost:5173
+```
+
+#### 3. Acceder a la Aplicación
+
+1. Abre tu navegador en `http://localhost:5173`
+2. Usa las credenciales de prueba:
+   - **Usuario**: `admin`
+   - **Contraseña**: `admin123`
+3. Inicia sesión y explora el dashboard
+
+### 🐳 Usando Docker (Recomendado)
 
 1. **Clonar el repositorio**
 ```bash
@@ -240,6 +314,62 @@ new_token = response.json()["access_token"]
      - Key: `Authorization`
      - Value: `******
 
+## 💻 Frontend React
+
+El frontend es una aplicación moderna desarrollada con React que implementa:
+
+### Características
+- **Autenticación visual**: Formulario de login elegante y responsive
+- **Dashboard protegido**: Página de bienvenida con información del usuario
+- **Gestión de sesión**: Manejo automático de tokens JWT
+- **Diseño FlowOps**: Implementa el estándar de diseño definido en DESIGN.md
+- **Rutas protegidas**: Redirección automática si no hay sesión activa
+
+### Estructura
+```
+frontend/
+├── src/
+│   ├── components/       # Componentes reutilizables
+│   │   └── ProtectedRoute.jsx
+│   ├── context/          # Context API para autenticación
+│   │   └── AuthContext.jsx
+│   ├── pages/            # Páginas de la aplicación
+│   │   ├── Login.jsx
+│   │   └── Welcome.jsx
+│   ├── services/         # Servicios de API
+│   │   └── api.js
+│   ├── App.jsx
+│   ├── main.jsx
+│   └── index.css
+├── public/
+├── package.json
+└── README.md
+```
+
+### Uso del Frontend
+
+1. **Página de Login** (`/`):
+   - Ingresa usuario y contraseña
+   - Muestra errores de autenticación
+   - Guarda el token JWT en localStorage
+   - Redirige a la página de bienvenida
+
+2. **Página de Bienvenida** (`/welcome`):
+   - Muestra información del usuario autenticado
+   - Obtiene datos del endpoint protegido del backend
+   - Permite cerrar sesión
+   - Protegida con JWT
+
+### Personalización
+
+Para cambiar la URL del backend, edita `frontend/src/services/api.js`:
+
+```javascript
+const API_BASE_URL = 'http://localhost:8000';
+```
+
+Para más detalles sobre el frontend, consulta `frontend/README.md`.
+
 ## Documentación Interactiva
 
 FastAPI genera automáticamente documentación interactiva:
@@ -253,10 +383,21 @@ Puedes probar todos los endpoints directamente desde estas interfaces.
 
 ```
 copilot-taller-s2/
-├── backend/
+├── backend/                 # Backend API con FastAPI
 │   ├── main.py              # Aplicación FastAPI principal
 │   ├── pyproject.toml       # Configuración de Poetry y dependencias
 │   └── Dockerfile           # Configuración de Docker
+├── frontend/                # Frontend React
+│   ├── src/
+│   │   ├── components/      # Componentes React
+│   │   ├── context/         # Context API
+│   │   ├── pages/           # Páginas de la app
+│   │   ├── services/        # Servicios y API
+│   │   └── ...
+│   ├── public/
+│   ├── package.json
+│   └── README.md            # Documentación del frontend
+├── DESIGN.md                # Estándar de diseño FlowOps
 ├── docker-compose.yml       # Orquestación de contenedores
 ├── .gitignore              # Archivos ignorados por Git
 └── README.md               # Este archivo
@@ -264,22 +405,40 @@ copilot-taller-s2/
 
 ## Dependencias Principales
 
+### Backend
 - **FastAPI**: Framework web moderno y rápido
 - **Uvicorn**: Servidor ASGI de alto rendimiento
 - **python-jose**: Implementación de JWT
 - **passlib**: Hashing de contraseñas
 - **pydantic**: Validación de datos
+- **bcrypt**: Algoritmo de hashing seguro
+
+### Frontend
+- **React**: Biblioteca para interfaces de usuario
+- **Vite**: Build tool y dev server moderno
+- **React Router**: Navegación entre páginas
+- **Tailwind CSS**: Framework de estilos utilitarios
+- **Axios**: Cliente HTTP para peticiones al backend
 
 ## Seguridad
 
 ⚠️ **Importante**: Esta es una implementación de demostración. Para producción:
 
+### Backend
 1. Cambia `SECRET_KEY` en `main.py` por una clave segura
 2. Usa variables de entorno para credenciales
 3. Implementa una base de datos real en lugar de usuarios en memoria
 4. Considera usar HTTPS
 5. Implementa rate limiting
 6. Añade logs de auditoría
+
+### Frontend
+1. Usa HTTPS en producción
+2. Implementa refresh tokens automáticos
+3. Considera usar httpOnly cookies en lugar de localStorage
+4. Valida todas las entradas del usuario
+5. Implementa CSP (Content Security Policy)
+6. Añade protección contra XSS y CSRF
 
 ## Desarrollo
 
@@ -297,18 +456,41 @@ poetry run pytest
 
 ## Solución de Problemas
 
-### El contenedor no inicia
+### Backend
+
+#### El contenedor no inicia
 - Verifica que Docker esté ejecutándose
 - Asegúrate de que el puerto 8000 no esté en uso
 
-### Error de autenticación
+#### Error de autenticación
 - Verifica que estés usando las credenciales correctas (admin/admin123)
 - Asegúrate de que el token no haya expirado (300 segundos)
 - Verifica el formato del header: `Authorization: ******
 
-### Token expirado
+#### Token expirado
 - Usa el endpoint `/refresh` para obtener un nuevo token
 - O vuelve a hacer login en `/login`
+
+### Frontend
+
+#### El frontend no se conecta al backend
+- Verifica que el backend esté corriendo en `http://localhost:8000`
+- Comprueba la configuración de CORS en el backend
+- Revisa la consola del navegador para errores específicos
+
+#### Error de CORS
+- Asegúrate de que el backend tenga CORS configurado correctamente en `main.py`
+- Verifica que el frontend esté corriendo en `http://localhost:5173`
+
+#### Página en blanco
+- Abre la consola del navegador (F12) para ver errores
+- Verifica que todas las dependencias estén instaladas (`npm install`)
+- Intenta limpiar y reconstruir: `npm run build`
+
+#### Token expira rápido
+- Por defecto, los tokens expiran en 5 minutos
+- Esto es intencional para demostración
+- En producción, ajusta `ACCESS_TOKEN_EXPIRE_SECONDS` en el backend
 
 ## Licencia
 
