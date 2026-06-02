@@ -36,10 +36,11 @@ app.add_middleware(
 )
 
 # Mock user database
+# Pre-hashed password for "admin123" using bcrypt
 fake_users_db = {
     "admin": {
         "username": "admin",
-        "hashed_password": pwd_context.hash("admin123"),
+        "hashed_password": "$2b$12$p1PB8Qj8czE7zYvKdWp7EuTdfCp/IQr00Ip0zikORoKsESJp9XgW6",  # admin123
     }
 }
 
